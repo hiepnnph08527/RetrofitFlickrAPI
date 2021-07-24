@@ -8,10 +8,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.example.retrofitflickrapi.Interface.APIService;
+import com.example.retrofitflickrapi.Adapter.PhotoGalleriesAdapter;
 import com.example.retrofitflickrapi.Model.PhotoGalleries.Photo2;
 import com.example.retrofitflickrapi.Model.PhotoGalleries.PhotoGalleries;
-import com.example.retrofitflickrapi.Model.PhotoGalleries.Photos2;
 
 import java.util.ArrayList;
 

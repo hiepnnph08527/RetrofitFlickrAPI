@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.example.retrofitflickrapi.Adapter.GalleriesAdapter;
 import com.example.retrofitflickrapi.Interface.ItemClickListener;
 import com.example.retrofitflickrapi.Model.Galleries.Galleries;
 import com.example.retrofitflickrapi.Model.Galleries.Gallery;
@@ -37,6 +38,7 @@ public class GalleriesActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_galleries);
         rcv_galleries= findViewById(R.id.rcv_galleries);
         callapiGalleries();
+        setTitle("Album");
     }
 
     public void callapiGalleries(){
@@ -56,7 +58,7 @@ public class GalleriesActivity extends AppCompatActivity  {
 
                     }
                 });
-                GridLayoutManager layoutManager= new GridLayoutManager(GalleriesActivity.this,2);
+                LinearLayoutManager layoutManager= new LinearLayoutManager(GalleriesActivity.this,LinearLayoutManager.VERTICAL,false);
                 rcv_galleries.setLayoutManager(layoutManager);
                 rcv_galleries.setAdapter(galleriesAdapter);
                 rcv_galleries.setHasFixedSize(true);

@@ -1,5 +1,6 @@
 package com.example.retrofitflickrapi.Interface;
 
+import com.example.retrofitflickrapi.Model.Comment.Comment;
 import com.example.retrofitflickrapi.Model.Favorite.Example;
 import com.example.retrofitflickrapi.Model.Galleries.Galleries;
 import com.example.retrofitflickrapi.Model.PhotoGalleries.PhotoGalleries;
@@ -40,4 +41,14 @@ public interface APIService {
                                            @Query("format") String format,
                                            @Query("nojsoncallback") int nojsoncallback);
 
+
+    //https://www.flickr.com/services/rest/?method=flickr.photos.comments.getList
+    // &api_key=3633bfecbf708e160211dc18d56060c3&photo_id=51192760857&format=json&nojsoncallback=1
+    @GET("services/rest")
+    Call<Comment> getListComment(@Query("method") String method,
+                                 @Query("api_key") String api_key,
+                                 @Query("photo_id") String photo_id,
+                                 @Query("format") String format,
+                                 @Query("nojsoncallback") int nojsoncallback
+                                           );
 }

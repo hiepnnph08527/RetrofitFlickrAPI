@@ -3,17 +3,21 @@ package com.example.retrofitflickrapi;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.example.retrofitflickrapi.Adapter.AnhAdapter;
 import com.example.retrofitflickrapi.Model.Favorite.Example;
 import com.example.retrofitflickrapi.Model.Favorite.Photo;
 
@@ -33,21 +37,31 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private AnhAdapter anhAdapter;
     private ActionBar toolbar;
-
+    SwipeRefreshLayout refreshLayout;
+    boolean isLoading;
+    StaggeredGridLayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         recyclerView= findViewById(R.id.rcv_main);
+        refreshLayout=findViewById(R.id.refresh_main);
+
+        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                callapi();
+                refreshLayout.setRefreshing(false);
+            }
+        });
+
         arrayListAnh= new ArrayList<>();
         callapi();
 
 
+
     }
-
-
-
 
 
 
@@ -58,16 +72,16 @@ public class MainActivity extends AppCompatActivity {
 //        arrayListAnh.add(new Image(R.drawable.iron4,"Iron man 4","116views"));
 //    }
 
+
     private void callapi(){
         RetrofitClient.getIntance().getListFavo(FULL_EXTRAS,
                 "1", USER_ID, "json", KEY_TOKEN, GET_FAVO, page,
-                80).enqueue(new Callback<Example>() {
+                200).enqueue(new Callback<Example>() {
             @Override
             public void onResponse(Call<Example> call, Response<Example> response) {
 
                 arrayListAnh= response.body().getPhotos().getPhoto();
                 anhAdapter= new AnhAdapter(MainActivity.this,arrayListAnh);
-
                 StaggeredGridLayoutManager layoutManager=
                         new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
                 recyclerView.setLayoutManager(layoutManager);
@@ -102,5 +116,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.retrofitflickrapi;
+package com.example.retrofitflickrapi.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.retrofitflickrapi.Interface.ItemClickListener;
 import com.example.retrofitflickrapi.Model.Galleries.Gallery;
+import com.example.retrofitflickrapi.R;
 
 import java.util.ArrayList;
 
@@ -60,7 +61,7 @@ public class GalleriesAdapter extends RecyclerView.Adapter<GalleriesAdapter.Gall
             super(itemView);
             layout_galleries= itemView.findViewById(R.id.layout_album);
             txtNameGalleries=itemView.findViewById(R.id.txtNameGalleries);
-            imgGalleries= itemView.findViewById(R.id.imgGalleries);
+
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.retrofitflickrapi;
+package com.example.retrofitflickrapi.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.retrofitflickrapi.Model.PhotoGalleries.Photo2;
+import com.example.retrofitflickrapi.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class PhotoGalleriesAdapter extends RecyclerView.Adapter<PhotoGalleriesAd
     @Override
     public void onBindViewHolder(PhotoGalleriesAdapter.PhotoGalleriesHolder holder, int position) {
         Photo2 photo=arrPhotoGalleries.get(position);
-        Picasso.with(Mcontext).load(photo.getUrlC()).into(holder.imgPhotoGalleries);
+        Picasso.with(Mcontext).load(photo.getUrlZ()).into(holder.imgPhotoGalleries);
         holder.txtnamePhoto.setText(photo.getTitle());
         holder.txtViewsPhoto.setText(photo.getViews()+" views");
 
