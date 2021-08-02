@@ -45,6 +45,8 @@ public class DetailActivity extends AppCompatActivity {
     BitmapDrawable bitmapDrawable;
     DisplayMetrics displayMetrics;
 
+    boolean checkPermission;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public class DetailActivity extends AppCompatActivity {
         sizeCDowload = findViewById(R.id.dowload2);
         sizeZDowload = findViewById(R.id.dowload3);
         setWalpaper=findViewById(R.id.setWalpaper);
+
 
         txtViews= findViewById(R.id.txtViews1);
         Photo photo= (Photo) getIntent().getSerializableExtra("anh");
@@ -80,20 +83,35 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 checkPermission();
+                if(checkPermission==true){
+                    startDowloadFile1(urlL);
+                }else {
+                    return;
+                }
             }
         });
         sizeCDowload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               
-                startDowloadFile2();
+                checkPermission();
+                if(checkPermission==true){
+                    startDowloadFile1(urlC);
+                }else {
+                    return;
+                }
+                //startDowloadFile1(urlC);
             }
         });
         sizeZDowload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                startDowloadFile3();
+                checkPermission();
+                if(checkPermission==true){
+                    startDowloadFile1(urlZ);
+                }else {
+                    return;
+                }
+                //startDowloadFile1(urlZ);
             }
         });
 
@@ -152,10 +170,11 @@ public class DetailActivity extends AppCompatActivity {
                 String [] permission = {Manifest.permission.WRITE_EXTERNAL_STORAGE};
                 requestPermissions(permission,REQUEST_PERMISION_CODE);
             }else {
-                startDowloadFile1();
+                checkPermission=true;
+
             }
         }else {
-            startDowloadFile1();
+            checkPermission=true;
         }
     }
 
@@ -163,17 +182,20 @@ public class DetailActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==REQUEST_PERMISION_CODE){
             if(grantResults.length>0 && grantResults[0] ==PackageManager.PERMISSION_GRANTED){
-                startDowloadFile1();
+                checkPermission=true;
+                Toast.makeText(this,"Permission granted",Toast.LENGTH_SHORT).show();
+
             }else{
+                checkPermission=false;
                 Toast.makeText(this,"Permission denied",Toast.LENGTH_SHORT).show();
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private void startDowloadFile1() {
+    private void startDowloadFile1(String url) {
 
-        DownloadManager.Request request=new DownloadManager.Request(Uri.parse(urlL));
+        DownloadManager.Request request=new DownloadManager.Request(Uri.parse(url));
         request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);
         request.setTitle("Dowload");
         request.setDescription("Dowload file ...");
@@ -185,33 +207,7 @@ public class DetailActivity extends AppCompatActivity {
             downloadManager.enqueue(request);
         }
     }
-    private void startDowloadFile2() {
 
-        DownloadManager.Request request=new DownloadManager.Request(Uri.parse(urlC));
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);
-        request.setTitle("Dowload");
-        request.setDescription("Dowload file ...");
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,String.valueOf(System.currentTimeMillis()));
 
-        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        if(downloadManager!=null){
-            downloadManager.enqueue(request);
-        }
-    }
-    private void startDowloadFile3() {
-
-        DownloadManager.Request request=new DownloadManager.Request(Uri.parse(urlZ));
-        request.setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE|DownloadManager.Request.NETWORK_WIFI);
-        request.setTitle("Dowload");
-        request.setDescription("Dowload file ...");
-        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS,String.valueOf(System.currentTimeMillis()));
-
-        DownloadManager downloadManager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        if(downloadManager!=null){
-            downloadManager.enqueue(request);
-        }
-    }
 
 }
